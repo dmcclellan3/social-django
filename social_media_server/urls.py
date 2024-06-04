@@ -26,9 +26,12 @@ router = routers.DefaultRouter()
 
 router.register(r'profile', ProfileViewSet)
 router.register(r'posts', PostViewSet)
+router.register(r'create-user', CreateUserViewSet, basename='user')
 
 urlpatterns = [
+    path('create-user/', CreateUserViewSet, name='create-user'),
     path('admin/', admin.site.urls),
+    # path('api/', include('api.urls')),
     path('profile/', get_profile),
     path('token/', TokenObtainPairView.as_view()),
     path('', include(router.urls))
