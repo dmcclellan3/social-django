@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'social_media_app',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
-    'api'
 ]
 
 REST_FRAMEWORK = {

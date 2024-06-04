@@ -24,12 +24,12 @@ from social_media_app.views import *
 from rest_framework import routers
 router = routers.DefaultRouter()
 
-router.register(r'profile', ProfileViewSet)
+# router.register(r'profile', ProfileViewSet)
 router.register(r'posts', PostViewSet)
-router.register(r'create-user', CreateUserViewSet, basename='user')
+# router.register(r'create-user', CreateUserViewSet, basename='user')
 
 urlpatterns = [
-    path('create-user/', CreateUserViewSet, name='create-user'),
+    path('create-user/', create_user),
     path('admin/', admin.site.urls),
     # path('api/', include('api.urls')),
     path('profile/', get_profile),

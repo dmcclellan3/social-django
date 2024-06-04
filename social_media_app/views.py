@@ -19,7 +19,7 @@ def get_profile(request):
 @api_view(['POST'])
 @permission_classes([])
 def create_user(request):
-    user = Profile.objects.create(
+    user = User.objects.create(
         username = request.data['username'],
     )   
     user.set_password(request.data['password'])
@@ -34,18 +34,18 @@ def create_user(request):
     profile_serialized = ProfileSerializer(profile)
     return Response(profile_serialized.data)
 
-@permission_classes([IsAuthenticated])  
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+# @permission_classes([IsAuthenticated])  
+# class ProfileViewSet(viewsets.ModelViewSet):
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
 
 @permission_classes([IsAuthenticated])  
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-@permission_classes([IsAuthenticated])  
-class CreateUserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# @permission_classes([IsAuthenticated])  
+# class CreateUserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
     
