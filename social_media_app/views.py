@@ -13,7 +13,7 @@ from rest_framework import viewsets
 def get_profile(request):
     user = request.user
     profile = user.profile
-    serialized_profile = ProfileSerializer(profile)
+    serialized_profile = ProfileSerializer(profile, many=False)
     return Response(serialized_profile.data)
 
 @api_view(['POST'])
@@ -33,6 +33,14 @@ def create_user(request):
     profile.save()
     profile_serialized = ProfileSerializer(profile)
     return Response(profile_serialized.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def read_post(request):
+    user = request.user 
+    profile = Profile.objects.get(user = user)
+    print('Profile', profile)
+
 
 # @permission_classes([IsAuthenticated])  
 # class ProfileViewSet(viewsets.ModelViewSet):

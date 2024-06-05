@@ -29,10 +29,11 @@ router.register(r'posts', PostViewSet)
 # router.register(r'create-user', CreateUserViewSet, basename='user')
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('create-user/', create_user),
     path('admin/', admin.site.urls),
     # path('api/', include('api.urls')),
     path('profile/', get_profile),
     path('token/', TokenObtainPairView.as_view()),
-    path('', include(router.urls))
+    # path('posts/', read_post)
 ]
