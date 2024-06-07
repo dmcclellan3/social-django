@@ -51,6 +51,21 @@ def read_post(request):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    def create(self, request):
+        post_data = {
+            'user': request.user.pk, 
+            'content': request.data['content']
+        }
+        serialized_data = PostSerializer(data= post_data)
+        if serialized_data.is_valid():
+            serialized_data.save()
+            posts = Post.objects.all()
+            serialized_posts = PostSerializer(posts, many=True)
+            return Response(serialized_posts.data)
+        else: 
+            return Response(serialized_data.errors)
+
+
 
 # @permission_classes([IsAuthenticated])  
 # class CreateUserViewSet(viewsets.ModelViewSet):

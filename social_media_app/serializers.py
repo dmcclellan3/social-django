@@ -7,9 +7,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ['id', 'user', 'username', 'content', 'created_at']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
