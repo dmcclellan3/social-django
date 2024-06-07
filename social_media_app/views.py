@@ -42,15 +42,11 @@ def read_post(request):
     print('Profile', profile)
 
 
-# @permission_classes([IsAuthenticated])  
-# class ProfileViewSet(viewsets.ModelViewSet):
-#     queryset = Profile.objects.all()
-#     serializer_class = ProfileSerializer
-
 @permission_classes([IsAuthenticated])  
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
     def create(self, request):
         post_data = {
             'user': request.user.pk, 
@@ -59,16 +55,26 @@ class PostViewSet(viewsets.ModelViewSet):
         serialized_data = PostSerializer(data= post_data)
         if serialized_data.is_valid():
             serialized_data.save()
-            posts = Post.objects.all()
-            serialized_posts = PostSerializer(posts, many=True)
-            return Response(serialized_posts.data)
+            # posts = Post.objects.all()
+            # serialized_posts = PostSerializer(posts, many=True)
+            return Response(serialized_data.data)
         else: 
             return Response(serialized_data.errors)
+        
+    def update(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        post.content = request.data['content']
+        post.save()
+        serialized_data = PostSerializer(post)
+        return Response(serialized_data.data)
+        
+        
 
 
-
-# @permission_classes([IsAuthenticated])  
-# class CreateUserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
+    # def update(self, request, *args, **kwargs):
+    #     response = super().update(request, *args, **kwargs)
+    #     return Response(PostSerializer(self.get_object()).data)
     
+    # def perform_update(self, serializer):
+    #     serializer.save(user=self.request.user)
+
