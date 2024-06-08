@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 
 
 
@@ -55,26 +55,16 @@ class PostViewSet(viewsets.ModelViewSet):
         serialized_data = PostSerializer(data= post_data)
         if serialized_data.is_valid():
             serialized_data.save()
-            # posts = Post.objects.all()
-            # serialized_posts = PostSerializer(posts, many=True)
             return Response(serialized_data.data)
         else: 
-            return Response(serialized_data.errors)
+            return Response(serialized_data.errors, status.HTTP_400_BAD_REQUEST)
         
+
     def update(self, request, pk):
         post = Post.objects.get(pk=pk)
-        post.content = request.data['content']
+        post.content = request.data['content']  
         post.save()
         serialized_data = PostSerializer(post)
         return Response(serialized_data.data)
         
-        
-
-
-    # def update(self, request, *args, **kwargs):
-    #     response = super().update(request, *args, **kwargs)
-    #     return Response(PostSerializer(self.get_object()).data)
     
-    # def perform_update(self, serializer):
-    #     serializer.save(user=self.request.user)
-
